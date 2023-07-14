@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "distributed_storage"
+version = "0.1.0"
+description = ""
+authors = ["Yaroslav <y.kivaev@tinkoff.ru>"]
+readme = "README.md"
+packages = [{include = "distributed_storage"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+grpcio = "^1.56.0"
+grpcio-tools = "^1.56.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

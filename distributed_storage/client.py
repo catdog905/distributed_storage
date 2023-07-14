@@ -1,19 +1,23 @@
+from threading import Thread
+
 import grpc
 
 import data_transfer_api_pb2 as service
 import data_transfer_api_pb2_grpc as stub
 
+from google.protobuf.timestamp_pb2 import Timestamp
 
-def put(user_id, user_name):
-    args = service.StoreValueRequest(key="001", value="value1", spreading_request_prefix=[])
+
+def put(key):
+    args = service.StoreValueRequest(key=key, value=service.Value(update_time=Timestamp().GetCurrentTime(), payload=b"value1"))
     response = stub.StoreValue(args)
     print(f"{response.code}:{response.message}")
 
 
-def get():
-    args = service.GetValueRequest(key="hello")
+def get(key):
+    args = service.GetValueRequest(key=key)
     response = stub.GetValue(args)
-    print(f"{response.value}")
+    print(f'{response.key_found}, {response.value.update_time}, {response.value.payload}')
 
 
 def delete_user(user_id):
@@ -25,5 +29,7 @@ def delete_user(user_id):
 if __name__ == '__main__':
     with grpc.insecure_channel('localhost:1234') as channel:
         stub = stub.KeyValueServiceStub(channel)
-        put(2, "User2_updated")
-        get()
+        put("2")
+        thread = Thread(target=get, args=("2",))
+        thread.start()
+        get("3")
