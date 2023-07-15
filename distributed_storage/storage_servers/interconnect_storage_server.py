@@ -15,7 +15,7 @@ class XMLRPCStorageServer:
         self.storage = storage
 
     def get_value(self, key: str) -> Value:
-        self.storage.get_value(key)
+        return self.storage.get_value(key)
 
     def store_value(self, key: str, value: Value):
         self.storage.store_value(key, value)
@@ -35,4 +35,4 @@ class InterConnectStorageServer:
         self.server = SimpleXMLRPCServer(('0.0.0.0', 1234), logRequests=False)
         self.server.register_introspection_functions()
         self.server.register_instance(XMLRPCStorageServer(self.node_name, self.storage))
-        self.running_thread = Thread(target=lambda server: server.serve_forever(), args=(self.server,))
+        self.running_thread = Thread(target=lambda server: server.serve_forever(), args=(self.server,)).start()

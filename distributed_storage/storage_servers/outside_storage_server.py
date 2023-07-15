@@ -1,22 +1,18 @@
+from xmlrpc.client import ServerProxy
+
 from distributed_storage.value import Value
 
 
 class OutsideStorageServer:
 
     def get_value(self, key: str) -> Value:
-        raise NotImplementedError
+        with ServerProxy(f'http://node_{self.node_name}:{self.port}') as node:
+            return node.get_value(key)
 
     def store_value(self, key: str, value: Value):
-        raise NotImplementedError
+        with ServerProxy(f'http://node_{self.node_name}:{self.port}') as node:
+            node.store_value(key, value)
 
-    def run(self):
-        parser = ArgumentParser()
-        parser.add_argument('node_id', type=int)
-        args = parser.parse_args()
-        with SimpleXMLRPCServer(('0.0.0.0', PORT), logRequests=False) as server:
-            server.register_introspection_functions()
-            server.register_instance(Node(args.node_id))
-            try:
-                server.serve_forever()
-            except KeyboardInterrupt:
-                print("Shutting down...")
+    def __init__(self, node_name, port):
+        self.node_name = node_name
+        self.port = port

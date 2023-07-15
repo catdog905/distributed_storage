@@ -1,4 +1,5 @@
 from threading import Thread
+from xmlrpc.client import ServerProxy
 
 import grpc
 
@@ -22,9 +23,5 @@ def get(key):
 
 
 if __name__ == '__main__':
-    with grpc.insecure_channel('localhost:1357') as channel:
-        stub = stub.KeyValueServiceStub(channel)
-        put("2")
-        thread = Thread(target=get, args=("2",))
-        thread.start()
-        get("2")
+    with ServerProxy(f'http://localhost:1234') as node:
+        print(node.get_value("3"))

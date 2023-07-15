@@ -1,5 +1,5 @@
+from distributed_storage.storage.storage import Storage
 from distributed_storage.value import Value
-from storage import Storage
 
 
 class NoSuchKeyInStoragePresent(Exception):
@@ -8,6 +8,9 @@ class NoSuchKeyInStoragePresent(Exception):
 
 
 class DictionaryStorage(Storage):
+
+    def contains(self, key) -> bool:
+        return key in self.storage
 
     def get_value(self, key: str) -> Value:
         if key not in self.storage:
