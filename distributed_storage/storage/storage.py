@@ -1,5 +1,7 @@
-from distributed_storage.value import Value
+
 from abc import ABC, abstractmethod
+
+from .value import Value
 
 
 class Storage(ABC):

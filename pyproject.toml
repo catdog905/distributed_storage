@@ -10,6 +10,8 @@ packages = [{include = "distributed_storage"}]
 python = "^3.11"
 grpcio = "^1.56.0"
 grpcio-tools = "^1.56.0"
+google-api-python-client = "^2.93.0"
+protobuf = "^4.23.4"
 
 
 [build-system]

@@ -1,8 +1,3 @@
-from data_transfer_api_pb2 import (
-    GetValueResponse,
-    Value as StubValue,
-    StoreValueResponse
-)
 from google.protobuf.timestamp_pb2 import Timestamp as StubTimestamp
 from datetime import datetime
 import time
@@ -17,8 +12,6 @@ class UpdateTime:
 class UpdateTimeFromTimeNs(UpdateTime):
     def __init__(self, time_ns):
         super().__init__(time_ns // 10 ** 9, time_ns - (time_ns // 10 ** 9 * 10**9))
-        print(time_ns // 10 ** 9)
-        print(time_ns - (time_ns // 10 ** 9 * 10**9))
 
 
 class CurrentUpdateTime(UpdateTimeFromTimeNs):

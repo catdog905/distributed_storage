@@ -1,7 +1,5 @@
 syntax = "proto3";
 
-import "google/protobuf/timestamp.proto";
-
 package data_transfer_api;
 
 service KeyValueService {
@@ -10,7 +8,6 @@ service KeyValueService {
 }
 
 message Value {
-  google.protobuf.Timestamp update_time = 1;
   bytes payload = 2;
 }
 

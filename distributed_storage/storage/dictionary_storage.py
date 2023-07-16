@@ -1,5 +1,5 @@
-from distributed_storage.storage.storage import Storage
-from distributed_storage.value import Value
+from .storage import Storage
+from distributed_storage.storage.value import Value
 
 
 class NoSuchKeyInStoragePresent(Exception):
