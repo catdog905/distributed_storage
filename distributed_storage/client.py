@@ -20,7 +20,6 @@ def put(key):
 def get(key):
     args = service.GetValueRequest(key=key)
     response = stub.GetValue(args)
-    #print(f'{response.key_found},  {response.value.payload}')
     return response.value.payload
 
 
@@ -28,6 +27,4 @@ if __name__ == '__main__':
     with grpc.insecure_channel('localhost:1234') as channel:
         stub = stub.KeyValueServiceStub(channel)
         put("2")
-        #thread = Thread(target=get, args=("2",))
-        #thread.start()
         print(get("2"))
