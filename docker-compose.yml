@@ -1,24 +1,44 @@
-version: '3'
-
 services:
   distributed_storage_node_1:
     build:
       context: .
       dockerfile: Dockerfile
     container_name: distributed_storage_node_1
+    ports:
+      - 1234:1234
+    expose:
+      - 1234
+      - 12345
     environment:
-      - PYTHONUNBUFFERED=1
-      - PYTHONPATH=.
-    command: poetry run python distributed_storage/main.py 1234 12345 22345
-    network_mode: host
+      - GRPC_PORT=1234
+      - XMLRPC_PORT=12345
+      - OTHER_NODE_PORT=2
+    command: poetry run python3 distributed_storage/main.py
 
   distributed_storage_node_2:
     build:
       context: .
       dockerfile: Dockerfile
     container_name: distributed_storage_node_2
+    ports:
+      - 1235:1234
+    expose:
+      - 1234
+      - 12345
     environment:
-      - PYTHONUNBUFFERED=1
-      - PYTHONPATH=.
-    command: poetry run python distributed_storage/main.py 2234 22345 12345
+      - GRPC_PORT=1234
+      - XMLRPC_PORT=12345
+      - OTHER_NODE_PORT=1
+    command: poetry run python3 distributed_storage/main.py
+
+  client_node:
+    build: .
+    environment:
+      - NODE_ADDRESS=distributed_storage_node_2:1234
+    depends_on:
+      - distributed_storage_node_1
+      - distributed_storage_node_2
+    command: poetry run python3 distributed_storage/client.py
     network_mode: host
+
+

@@ -1,6 +1,7 @@
 from threading import Thread
 from xmlrpc.server import SimpleXMLRPCServer
 
+from distributed_storage.environment_variables.EnvironmentVariable import EnvironmentVariable
 from distributed_storage.storage.storage import Storage
 from distributed_storage.storage.value import Value, ValueFromXMLRPCDateTime
 
@@ -23,7 +24,7 @@ class XMLRPCStorageServer:
 
 class InterConnectStorageServer:
 
-    def __init__(self, xml_port, storage):
+    def __init__(self, xml_port: EnvironmentVariable, storage: Storage):
         self.xml_port = xml_port
         self.storage = storage
         self.running_thread = None
@@ -32,7 +33,7 @@ class InterConnectStorageServer:
     def run(self):
         if self.running_thread is not None:
             raise ServerAlreadyStarted()
-        self.server = SimpleXMLRPCServer(('0.0.0.0', self.xml_port), logRequests=False)
+        self.server = SimpleXMLRPCServer(('0.0.0.0', self.xml_port.value()), logRequests=False)
         self.server.register_introspection_functions()
         self.server.register_instance(XMLRPCStorageServer(self.xml_port, self.storage))
         self.running_thread = Thread(target=lambda server: server.serve_forever(), args=(self.server,)).start()

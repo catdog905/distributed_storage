@@ -1,13 +1,9 @@
-from threading import Thread
+import os
 
 import grpc
 
 import data_transfer_api_pb2 as service
 import data_transfer_api_pb2_grpc as stub
-
-from google.protobuf.timestamp_pb2 import Timestamp
-
-from distributed_storage.storage.update_time import StubTimestampFromUpdateTime, CurrentUpdateTime
 
 
 def put(key):
@@ -24,7 +20,7 @@ def get(key):
 
 
 if __name__ == '__main__':
-    with grpc.insecure_channel('localhost:1234') as channel:
+    with grpc.insecure_channel('localhost:1235') as channel:
         stub = stub.KeyValueServiceStub(channel)
-        put("2")
+        #put("2")
         print(get("2"))
