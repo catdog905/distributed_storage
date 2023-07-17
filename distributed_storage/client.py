@@ -1,6 +1,7 @@
 from threading import Thread
 
 import grpc
+import os
 
 import data_transfer_api_pb2 as service
 import data_transfer_api_pb2_grpc as stub
@@ -24,7 +25,7 @@ def get(key):
 
 
 if __name__ == '__main__':
-    with grpc.insecure_channel('localhost:1234') as channel:
+    with grpc.insecure_channel(os.getenv('NODE_ADDRESS')) as channel:
         stub = stub.KeyValueServiceStub(channel)
         put("2")
         print(get("2"))
