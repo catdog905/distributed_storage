@@ -8,7 +8,7 @@ service KeyValueService {
 }
 
 message Value {
-  bytes payload = 2;
+  bytes payload = 1;
 }
 
 message StoreValueResponse {
