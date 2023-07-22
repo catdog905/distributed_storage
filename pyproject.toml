@@ -12,6 +12,7 @@ grpcio = "^1.56.0"
 grpcio-tools = "^1.56.0"
 google-api-python-client = "^2.93.0"
 protobuf = "^4.23.4"
+redis = "^4.6.0"
 
 [tool.poetry.scripts]
 client = "distributed_storage.client:main"
