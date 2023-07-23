@@ -3,7 +3,7 @@ from xmlrpc.server import SimpleXMLRPCServer
 
 from distributed_storage.environment_variables.EnvironmentVariable import EnvironmentVariable
 from distributed_storage.storage.storage import Storage
-from distributed_storage.storage.value import Value, ValueFromXMLRPCDateTime
+from distributed_storage.storage.types.value import ValueFromXMLRPCDateTime
 
 
 class ServerAlreadyStarted(Exception):
@@ -14,6 +14,9 @@ class XMLRPCStorageServer:
     def __init__(self, node_name, storage: Storage):
         self.node_name = node_name
         self.storage = storage
+
+    def get_value(self, key: str):
+        return self.storage.get_value(key)
 
     def store_value(self, key: str, value: dict):
         self.storage.store_value(key, ValueFromXMLRPCDateTime(value))
