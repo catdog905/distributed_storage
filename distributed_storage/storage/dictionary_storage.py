@@ -1,16 +1,8 @@
-from .storage import Storage
-from distributed_storage.storage.value import Value
-
-
-class NoSuchKeyInStoragePresent(Exception):
-    def __init__(self, key):
-        self.key = key
+from .storage import Storage, NoSuchKeyInStoragePresent
+from distributed_storage.storage.types.value import Value
 
 
 class DictionaryStorage(Storage):
-
-    def contains(self, key) -> bool:
-        return key in self.storage
 
     def get_value(self, key: str) -> Value:
         if key not in self.storage:

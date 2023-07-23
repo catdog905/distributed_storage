@@ -4,7 +4,7 @@ from .dictionary_storage import NoSuchKeyInStoragePresent
 from .storage import Storage
 from redis.cluster import RedisCluster
 
-from .value import Value
+from .types.value import Value
 
 
 class RedisStorage(Storage):

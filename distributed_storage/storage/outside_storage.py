@@ -1,18 +1,18 @@
 from xmlrpc.client import ServerProxy
 
 from distributed_storage.environment_variables.InnerXmlRpcPort import InnerXmlRpcPort
-from distributed_storage.storage.value import Value
+from distributed_storage.storage.storage import Storage
+from distributed_storage.storage.types.value import Value, ValueFromXMLRPCDateTime
 
 
-class OutsideStorageServer:
+class OutsideStorage(Storage):
 
     def get_value(self, key: str) -> Value:
         with ServerProxy(self.uri) as node:
-            return node.get_value(key)
+            return ValueFromXMLRPCDateTime(node.get_value(key))
 
     def store_value(self, key: str, value: Value):
         with ServerProxy(self.uri) as node:
-            print(value)
             node.store_value(key, value)
 
     def __init__(self, node_id, port: InnerXmlRpcPort):

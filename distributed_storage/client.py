@@ -1,9 +1,7 @@
-import os
-
 import grpc
 
-import data_transfer_api_pb2 as service
-import data_transfer_api_pb2_grpc as stub
+import distributed_storage.proto.data_transfer_api_pb2 as service
+import distributed_storage.proto.data_transfer_api_pb2_grpc as stub
 
 
 def put(key):
@@ -22,5 +20,5 @@ def get(key):
 if __name__ == '__main__':
     with grpc.insecure_channel('localhost:1234') as channel:
         stub = stub.KeyValueServiceStub(channel)
-        #put("2")
-        print(get("2"))
+        #put("6")
+        print(get("6"))

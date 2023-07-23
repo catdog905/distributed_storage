@@ -2,7 +2,7 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-import data_transfer_api_pb2 as data__transfer__api__pb2
+import distributed_storage.proto.data_transfer_api_pb2 as data__transfer__api__pb2
 
 
 class KeyValueServiceStub(object):

@@ -7,6 +7,10 @@
     {
       "url": "http://distributed_storage_node_1:1234",
       "priority": 3
+    },
+    {
+      "url": "http://distributed_storage_node_3:1234",
+      "priority": 2
     }
   ]
 }

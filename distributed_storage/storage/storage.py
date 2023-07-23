@@ -1,14 +1,14 @@
-
 from abc import ABC, abstractmethod
 
-from .value import Value
+from distributed_storage.storage.types.value import Value
+
+
+class NoSuchKeyInStoragePresent(Exception):
+    def __init__(self, key):
+        self.key = key
 
 
 class Storage(ABC):
-
-    @abstractmethod
-    def contains(self, key) -> bool:
-        raise NotImplementedError
 
     @abstractmethod
     def get_value(self, key: str) -> Value:
