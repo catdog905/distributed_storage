@@ -3,6 +3,6 @@ import os
 from distributed_storage.environment_variables.EnvironmentVariable import EnvironmentVariable
 
 
-class OtherNodesPorts(EnvironmentVariable):
+class OtherNodes(EnvironmentVariable):
     def value(self) -> list:
-        return [os.getenv('OTHER_NODE_PORT', 1234)]
+        return os.getenv('OTHER_NODES').split(",")

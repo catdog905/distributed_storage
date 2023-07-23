@@ -1,10 +1,5 @@
-from .storage import Storage
+from .storage import Storage, NoSuchKeyInStoragePresent
 from distributed_storage.storage.types.value import Value
-
-
-class NoSuchKeyInStoragePresent(Exception):
-    def __init__(self, key):
-        self.key = key
 
 
 class DictionaryStorage(Storage):

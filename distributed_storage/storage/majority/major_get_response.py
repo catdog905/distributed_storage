@@ -1,6 +1,6 @@
 from distributed_storage.storage.storage import Storage
+from distributed_storage.storage.majority.major_response import MajorResponse
 from distributed_storage.storage.types.value import Value
-from distributed_storage.storage_servers.majority.major_response import MajorResponse
 
 
 class MajorGetResponse:

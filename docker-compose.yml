@@ -67,7 +67,7 @@ services:
     environment:
       - GRPC_PORT=1234
       - XMLRPC_PORT=12345
-      - OTHER_NODE_PORT=2
+      - OTHER_NODES=2,3
       - REDIS_SUFFIX=-storage1
     command: poetry run python3 distributed_storage/main.py
     depends_on:
@@ -141,8 +141,28 @@ services:
     environment:
       - GRPC_PORT=1234
       - XMLRPC_PORT=12345
-      - OTHER_NODE_PORT=1
+      - OTHER_NODES=1,3
       - REDIS_SUFFIX=-storage2
+    command: poetry run python3 distributed_storage/main.py
+    depends_on:
+      - redis-cluster-storage2-creator
+
+
+  distributed_storage_node_3:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: distributed_storage_node_3
+    ports:
+      - "1236:1234"
+    expose:
+      - 1236
+      - 12345
+    environment:
+      - GRPC_PORT=1234
+      - XMLRPC_PORT=12345
+      - OTHER_NODES=1,2
+      - REDIS_SUFFIX=-storage3
     command: poetry run python3 distributed_storage/main.py
     depends_on:
       - redis-cluster-storage2-creator
