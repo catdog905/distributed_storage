@@ -148,6 +148,59 @@ services:
       - redis-cluster-storage2-creator
 
 
+  redis-node-1-storage3:
+    image: redis:latest
+    hostname: redis-node-1-storage3
+    volumes:
+      - ./redis-cluster/redis.conf:/usr/local/etc/redis/redis.conf
+    command: redis-server /usr/local/etc/redis/redis.conf
+
+  redis-node-2-storage3:
+    image: redis:latest
+    hostname: redis-node-2-storage3
+    volumes:
+      - ./redis-cluster/redis.conf:/usr/local/etc/redis/redis.conf
+    command: redis-server /usr/local/etc/redis/redis.conf
+
+  redis-node-3-storage3:
+    image: redis:latest
+    hostname: redis-node-3-storage3
+    volumes:
+      - ./redis-cluster/redis.conf:/usr/local/etc/redis/redis.conf
+    command: redis-server /usr/local/etc/redis/redis.conf
+
+  redis-node-4-storage3:
+    image: redis:latest
+    hostname: redis-node-4-storage3
+    volumes:
+      - ./redis-cluster/redis.conf:/usr/local/etc/redis/redis.conf
+    command: redis-server /usr/local/etc/redis/redis.conf
+
+  redis-node-5-storage3:
+    image: redis:latest
+    hostname: redis-node-5-storage3
+    volumes:
+      - ./redis-cluster/redis.conf:/usr/local/etc/redis/redis.conf
+    command: redis-server /usr/local/etc/redis/redis.conf
+
+  redis-node-6-storage3:
+    image: redis:latest
+    hostname: redis-node-6-storage3
+    volumes:
+      - ./redis-cluster/redis.conf:/usr/local/etc/redis/redis.conf
+    command: redis-server /usr/local/etc/redis/redis.conf
+
+  redis-cluster-storage3-creator:
+    image: redis:latest
+    command: redis-cli --cluster create redis-node-1-storage3:6379 redis-node-2-storage3:6379 redis-node-3-storage3:6379 redis-node-4-storage3:6379 redis-node-5-storage3:6379 redis-node-6-storage3:6379 --cluster-replicas 1 --cluster-yes
+    depends_on:
+      - redis-node-1-storage3
+      - redis-node-2-storage3
+      - redis-node-3-storage3
+      - redis-node-4-storage3
+      - redis-node-5-storage3
+      - redis-node-6-storage3
+
   distributed_storage_node_3:
     build:
       context: .
@@ -165,4 +218,21 @@ services:
       - REDIS_SUFFIX=-storage3
     command: poetry run python3 distributed_storage/main.py
     depends_on:
-      - redis-cluster-storage2-creator
+      - redis-cluster-storage3-creator
+
+
+  snmp_driver:
+    image: ghcr.io/y4cer/snmp_driver_generator:main
+    entrypoint: ["./build/driver", "001", "1", "194.135.94.180", "balancer:8080"]
+    depends_on:
+      - balancer
+
+  balancer:
+    image: ghcr.io/r-mol/balanser_highload_system:main
+    entrypoint: ["./balancer", "start", "--config=/app/config/config.yaml", "--address=0.0.0.0:8080", "--prometheus_address=0.0.0.0:7777"]
+    volumes:
+      - ./config.yaml:/app/config/config.yaml
+    depends_on:
+      - distributed_storage_node_1
+      - distributed_storage_node_2
+      - distributed_storage_node_3

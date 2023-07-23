@@ -1,6 +1,10 @@
+from redis.cluster import ClusterNode
+
 from distributed_storage.environment_variables.ExposedGrpcPort import ExposedGrpcPort
 from distributed_storage.environment_variables.InnerXmlRpcPort import InnerXmlRpcPort
 from distributed_storage.environment_variables.OtherNodes import OtherNodes
+from distributed_storage.environment_variables.redis_nodes_suffix import RedisNodesSuffix
+from distributed_storage.storage.redis_storage import RedisStorage
 from distributed_storage.storage.weakly_consistent_storage import WeaklyConsistentStorage
 from distributed_storage.storage.outside_storage import OutsideStorage
 from storage.dictionary_storage import DictionaryStorage
@@ -8,18 +12,12 @@ from distributed_storage.api.user_storage_api import StorageAPI
 from distributed_storage.api.interconnect_storage_api import InterConnectStorageServer
 
 if __name__ == '__main__':
-    """
     redis_nodes_suffix = str(RedisNodesSuffix())
     storage = RedisStorage(
         startup_nodes=[ClusterNode(host="redis-node-1" + redis_nodes_suffix, port=6379),
                        ClusterNode(host="redis-node-2" + redis_nodes_suffix, port=6379),
-                       ClusterNode(host="redis-node-3" + redis_nodes_suffix, port=6379),
-                       ClusterNode(host="redis-node-4" + redis_nodes_suffix, port=6379),
-                       ClusterNode(host="redis-node-5" + redis_nodes_suffix, port=6379),
-                       ClusterNode(host="redis-node-6" + redis_nodes_suffix, port=6379),
                        ])
-    """
-    storage = DictionaryStorage()
+    #storage = DictionaryStorage()
     outside_storages = [
         OutsideStorage(OtherNodes().value()[0], InnerXmlRpcPort()),
         OutsideStorage(OtherNodes().value()[1], InnerXmlRpcPort())]
