@@ -18,7 +18,7 @@ def get(key):
 
 
 if __name__ == '__main__':
-    with grpc.insecure_channel('localhost:1234') as channel:
+    with grpc.insecure_channel('localhost:1235') as channel:
         stub = stub.KeyValueServiceStub(channel)
-        #put("2")
+        put("2")
         print(get("2"))
