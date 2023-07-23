@@ -146,3 +146,18 @@ services:
     command: poetry run python3 distributed_storage/main.py
     depends_on:
       - redis-cluster-storage2-creator
+
+  snmp_driver:
+    image: ghcr.io/y4cer/snmp_driver_generator:main
+    entrypoint: ["./build/driver", "001", "1", "194.135.94.180", "balancer:8080"]
+    depends_on:
+      - balancer
+
+  balancer:
+    image: ghcr.io/r-mol/balanser_highload_system:main
+    entrypoint: ["./balancer", "start", "--config=/app/config/config.yaml", "--address=0.0.0.0:8080", "--prometheus_address=0.0.0.0:7777"]
+    volumes:
+      - ./config.yaml:/app/config/config.yaml
+    depends_on:
+      - distributed_storage_node_1
+      - distributed_storage_node_2
