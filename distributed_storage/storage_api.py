@@ -2,12 +2,12 @@ from concurrent.futures import ThreadPoolExecutor
 from threading import Thread
 
 import grpc
-from data_transfer_api_pb2 import (
+from distributed_storage.data_transfer_api_pb2 import (
     Value as StubValue,
     GetValueResponse,
     StoreValueResponse
 )
-import data_transfer_api_pb2_grpc as service
+import distributed_storage.data_transfer_api_pb2_grpc as service
 
 from distributed_storage.storage.storage import Storage
 from distributed_storage.storage_servers.interconnect_storage_server import ServerAlreadyStarted
@@ -56,4 +56,5 @@ class StorageAPI:
         service.add_KeyValueServiceServicer_to_server(KeyValueService(self.storage, self.slave_nodes), self.server)
         self.server.add_insecure_port(self.server_addr)
         self.server.start()
-        self.running_thread = Thread(target=lambda server: server.wait_for_termination(), args=(self.server, )).start()
+        self.running_thread = Thread(target=lambda server: server.wait_for_termination(), args=(self.server, ))
+        self.running_thread.start()
