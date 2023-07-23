@@ -148,8 +148,7 @@ services:
       - redis-cluster-storage2-creator
 
   snmp_driver:
-    # image: ghcr.io/y4cer/snmp_driver_generator:main
-    image: pupa
+    image: ghcr.io/y4cer/snmp_driver_generator:main
     entrypoint: ["./build/driver", "001", "1", "194.135.94.180", "balancer:8080"]
     depends_on:
       - balancer
