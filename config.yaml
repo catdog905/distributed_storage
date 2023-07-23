@@ -1,0 +1,12 @@
+{
+  "servers": [
+    {
+      "url": "http://distributed_storage_node_2:1234",
+      "priority": 1
+    },
+    {
+      "url": "http://distributed_storage_node_1:1234",
+      "priority": 3
+    }
+  ]
+}
